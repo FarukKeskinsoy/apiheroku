@@ -2446,4 +2446,4 @@ const isimler=[
     "EMRE KAĞAN"
 ]
 
-export default isimler;
+module.exports = isimler;
