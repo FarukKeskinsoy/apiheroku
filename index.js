@@ -28,7 +28,6 @@ const upload = multer({ storage: storageM });
   
       return textContent;
     } catch (error) {
-      console.error('Error extracting text from PDF:', error.message);
       throw error;
     }
   };
@@ -44,14 +43,12 @@ const upload = multer({ storage: storageM });
       }
   
       const uniqueNames = new Set();
-      console.log("async");
   
       for (const possibility of arrN) {
         const lowercasePossibility = possibility.toLowerCase();
   
         arrT.forEach((line, index) => {
           if (line?.toLowerCase()?.includes(lowercasePossibility)) {
-            console.log("buldu");
             uniqueNames.add(line);
           }
         });
@@ -59,7 +56,6 @@ const upload = multer({ storage: storageM });
   
       // Convert the Set back to an array
       const uniqueNamesArray = [...uniqueNames];
-      console.log(uniqueNamesArray[0]);
   
       resolve(uniqueNamesArray[0]);
     });
@@ -87,7 +83,6 @@ const upload = multer({ storage: storageM });
   
         return await findMatchingValuesName(arrT, isimler);
       } catch (error) {
-        console.error('Error reading the file:', error);
         throw error;
       }
     } else {
@@ -100,11 +95,9 @@ const upload = multer({ storage: storageM });
       });
   
       if (distances.filter(d => d.index > 0).length < 1) {
-        console.log("isim arıyor");
         try {
           return await findMatchingValuesName(arrT, isimler);
         } catch (error) {
-          console.error('Error reading the file:', error);
           throw error;
         }
       } else {
@@ -688,12 +681,10 @@ const upload = multer({ storage: storageM });
       // birim fiyat ve adet çıkarma
     
     if(billType==="kdvsiz"){
-      console.log("birim fiyat ve adet çıkarma fonksiyonu")
       var splitted=String(line).split(" ");
       var trimmedAndFiltered = splitted.map(element => element.trim()).filter(Boolean);
     
       var unitindex=trimmedAndFiltered.reverse().findIndex(f=>possibleForUnit.some(s=>s===f))
-      console.log(trimmedAndFiltered)
       result.amount=trimmedAndFiltered[unitindex+1] 
       result.unitPrice=trimmedAndFiltered[unitindex-1]
       result.unit = possibleForUnit.find(unit => line.includes(unit)) || null;
@@ -749,12 +740,9 @@ const upload = multer({ storage: storageM });
     
     
     if(!result.amount && result.unit && line.includes("TL")){
-      console.log("bunda amount yoktu ve uunit ten yola çıkıldı")
         var stringedLayer=line.split("").join("").replace(/\s/g,"").trim()
         var splittedLayer = stringedLayer.split(/KG|TL/).filter(Boolean);
-      console.log(stringedLayer)
       splittedLayer[0] = splittedLayer[0].split(',')[1];
-      console.log(splittedLayer)
       result.unitPrice=splittedLayer[splittedLayer.length-3];
       result.amount=Math.round(parseInt(result.productTotalPrice)/parseInt(result.unitPrice))
     
@@ -764,8 +752,6 @@ const upload = multer({ storage: storageM });
     if (Math.abs(result.amount) > threshold && result.unitPrice) {
     result.amount=Math.round(parseInt(result.productTotalPrice.replace(".",""))/parseInt(result.unitPrice.replace(".","")))
     
-    } else {
-      console.log("This number is within the safe range.");
     }
     if(result.amount&&result.productTotalPrice&&result.unitPrice&&(result.unitPrice===result.productTotalPrice)){
     result.productTotalPrice=(parseFloat(String(result.unitPrice).replace(",","."))*parseFloat(String(result.amount).replace(".",""))).toFixed(2)
@@ -857,7 +843,6 @@ const upload = multer({ storage: storageM });
         const limit = typesObject[type].limit;
         const uniqueKeywordCount = keywordSetTyped[type].length;
   
-        console.log(`Type: ${type}, Unique Keyword Count: ${uniqueKeywordCount}, Limit: ${limit}`);
   
         if (uniqueKeywordCount >= limit) {
           resolve({ type });
@@ -934,7 +919,6 @@ const upload = multer({ storage: storageM });
       });
       
     } catch (error) {
-      console.error('Error handling file upload:', error.message);
       res.status(500).json({ success: false, error: error.message });
     }
   });
