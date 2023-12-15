@@ -1,8 +1,5 @@
 import express from "express";
 import cors from 'cors';
-import PDFParser from 'pdf-parse';
-import multer from 'multer';
-import isimler from './isimler.js';
 
 
 
