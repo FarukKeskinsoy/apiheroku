@@ -10,6 +10,10 @@ app.use(cors({
     origin: '*'
   }));
 
+app.get('/', (req, res) => {
+    res.send('App is running..');
+  });
+
 
 
 app.listen(process.env.PORT || 5001 ,()=>{
